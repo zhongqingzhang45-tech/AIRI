@@ -51,6 +51,8 @@ interface CardItem {
   description?: string
   deprecated?: boolean
   customizable?: boolean
+  priceCredit?: number
+  unlocked?: boolean
 }
 
 watch(inputFiles, async (newFiles) => {
@@ -79,6 +81,8 @@ const cardsArray = computed<CardItem[]>(() =>
     id,
     name: card.name,
     description: card.description,
+    priceCredit: (card as any).priceCredit,
+    unlocked: (card as any).unlocked,
   })),
 )
 
@@ -311,6 +315,8 @@ function getModuleShortName(id: string, module: 'consciousness' | 'voice') {
           :version="getVersionNumber(item.id)"
           :consciousness-model="getModuleShortName(item.id, 'consciousness')"
           :voice-model="getModuleShortName(item.id, 'voice')"
+          :price-credit="item.priceCredit"
+          :unlocked="item.unlocked"
           @select="handleSelectCard(item.id)"
           @activate="activateCard(item.id)"
           @delete="confirmDelete(item.id)"
