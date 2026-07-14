@@ -48,7 +48,20 @@
         endpoint: "https://moeru-ai-airi-helper.kwaa.workers.dev/api/v1/page-external-data/submit"
       })
     </script>
-    <script src="/assets/js/CubismSdkForWeb-5-r.3/Core/live2dcubismcore.min.js"></script>
+    <script>
+      ;(function () {
+        var skip = new URLSearchParams(window.location.search).has('skip-live2d')
+        if (skip) {
+          window.__AIRI_SKIP_LIVE2D__ = true
+          window.__LIVE2D_SDK_MISSING__ = true
+          return
+        }
+        var s = document.createElement('script')
+        s.src = '/assets/js/CubismSdkForWeb-5-r.3/Core/live2dcubismcore.min.js'
+        s.onerror = function () { window.__LIVE2D_SDK_MISSING__ = true }
+        document.head.appendChild(s)
+      })()
+    </script>
   </head>
   <body class="font-cute">
     <div id="app"></div>
